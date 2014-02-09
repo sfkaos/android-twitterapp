@@ -1,49 +1,50 @@
 package com.winraguini.apps.mytwitterapp;
 
-import java.util.ArrayList;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.app.Activity;
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.ActionBar.TabListener;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.winraguini.apps.mytwitterapp.models.EndlessScrollListener;
+import com.winraguini.apps.mytwitterapp.fragments.HomeTimelineFragment;
+import com.winraguini.apps.mytwitterapp.fragments.MentionsFragment;
 import com.winraguini.apps.mytwitterapp.models.Tweet;
 
 
-public class TimelineActivity extends Activity {
-	ListView lvTweets;
-	Tweet lastTweet;
-	TweetsAdapter adapter;
-	ArrayList<Tweet> tweets = new ArrayList<Tweet>();;
+public class TimelineActivity extends FragmentActivity implements TabListener {
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_timeline);
-		lvTweets = (ListView) findViewById(R.id.lvTweets);
-		Log.d("DEBUG", "onCreating stuff");
-        // Attach the listener to the AdapterView onCreate
-		adapter = new TweetsAdapter(getBaseContext(), tweets);
-		lvTweets.setAdapter(adapter);
-		lvTweets.setOnScrollListener(new EndlessScrollListener() {
-        @Override
-        public void onLoadMore(int page, int totalItemsCount) {
-            // Triggered only when new data needs to be appended to the list
-            // Add whatever code is needed to append new items to your AdapterView
-            //customLoadMoreDataFromApi(page); 
-            customLoadMoreDataFromApi(totalItemsCount); 
-        }
-        });
-		getTweets();
+		setContentView(R.layout.activity_timeline);		
+		setupNavigationTabs();
+	}
+
+	private void setupNavigationTabs() {
+		// TODO Auto-generated method stub
+		ActionBar actionBar = getActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		actionBar.setDisplayShowTitleEnabled(true);
+		Tab tabHome = actionBar.newTab().setText("Home")
+				.setTag("HomeTimelineFragment").setIcon(R.drawable.ic_home)
+				.setTabListener(this);
+		Tab tabMentions = actionBar.newTab().setText("Mentions")
+				.setTag("MentionsTimelineFragment").setIcon(R.drawable.ic_mentions)
+				.setTabListener(this);
+		actionBar.addTab(tabHome);
+		actionBar.addTab(tabMentions);
+		actionBar.selectTab(tabHome);		
 	}
 
 	@Override
@@ -63,9 +64,9 @@ public class TimelineActivity extends Activity {
 	}
 	
 	public void refreshTimeline() {
-		adapter.clear();
-		lastTweet = null;
-		getTweets();
+		//adapter.clear();
+//		lastTweet = null;
+//		getTweets();
 	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -92,27 +93,36 @@ public class TimelineActivity extends Activity {
 			}
 		});
 	}
-	
-	
-	public void customLoadMoreDataFromApi(int totalItemsCount)
-	{
-		Log.d("DEBUG", "loading more data...");
-		getTweets();
+
+	@Override
+	public void onTabReselected(Tab tab, FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTabSelected(Tab tab, FragmentTransaction ft) {
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		android.support.v4.app.FragmentTransaction fts = fragmentManager.beginTransaction();
+		if (tab.getTag() == "HomeTimelineFragment") {
+			//set fragment to HomeTimeline
+			fts.replace(R.id.frame_container, new HomeTimelineFragment());
+		} else {
+			//set fragment to Mentions
+			fts.replace(R.id.frame_container, new MentionsFragment());
+		}
+		fts.commit();
+	}
+
+	@Override
+	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+		
 	}
 	
-	public void getTweets() {
-		MyTwitterApp.getRestClient().getHomeTimeline(lastTweet, new JsonHttpResponseHandler() {
-			public void onSuccess(JSONArray jsonTweets) {				
-				adapter.addAll(Tweet.fromJson(jsonTweets));
-				lastTweet = tweets.get(tweets.size() - 1);				
-				Log.d("DEBUG", jsonTweets.toString());
-			}
-			
-			public void onFailure(java.lang.Throwable e) {
-				Toast.makeText(getBaseContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-				Log.d("DEBUG", "Error: " + e.getMessage());
-			}
-		});
+	public void onProfileView(MenuItem mi) {
+		
 	}
+	
 	
 }
