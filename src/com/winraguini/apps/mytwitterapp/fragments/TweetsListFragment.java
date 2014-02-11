@@ -4,18 +4,23 @@ import java.util.ArrayList;
 
 import org.json.JSONArray;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.winraguini.apps.mytwitterapp.ProfileActivity;
 import com.winraguini.apps.mytwitterapp.R;
 import com.winraguini.apps.mytwitterapp.TweetsAdapter;
 import com.winraguini.apps.mytwitterapp.models.EndlessScrollListener;
 import com.winraguini.apps.mytwitterapp.models.Tweet;
+import com.winraguini.apps.mytwitterapp.models.User;
 
 public abstract class TweetsListFragment extends Fragment {
 			TweetsAdapter adapter;
@@ -23,6 +28,7 @@ public abstract class TweetsListFragment extends Fragment {
 			HomeTimelineFragment timelineFragment;
 			Tweet lastTweet;
 			ArrayList<Tweet> tweets;
+			User currentUser;
 			
 			@Override
 			public void onCreate(Bundle savedInstanceState) {
@@ -55,25 +61,29 @@ public abstract class TweetsListFragment extends Fragment {
 				
 				lvTweets = (ListView) getActivity().findViewById(R.id.lvTweets);
 				lvTweets.setAdapter(adapter);
+				setupListViewListener();
 				lvTweets.setOnScrollListener(new EndlessScrollListener() {
 			        @Override
 			        public void onLoadMore(int page, int totalItemsCount) {
-			            // Triggered only when new data needs to be appended to the list
-			            // Add whatever code is needed to append new items to your AdapterView
-			            //customLoadMoreDataFromApi(page); 
-			            //customLoadMoreDataFromApi(totalItemsCount);
 			        	getTweets();
-//			        	if (tweets.size() > 0) {
-//			        		Log.d("DEBUG", "tweets count is " + adapter.getCount());
-//			        		lastTweet = adapter.getItem(adapter.getCount() - 1);//tweets.get(tweets.size() - 1);
-//			        		Log.d("DEBUG", "last tweet id is" + lastTweet.getId());
-//			        	}			        	
 			        }
 			     });
-				//lastTweet = tweets.get(tweets.size() - 1);				
-				//Log.d("DEBUG", jsonTweets.toString());
 			}
 			
+			public void setupListViewListener() {
+				lvTweets.setOnItemClickListener(new OnItemClickListener() {
+
+					@Override
+					public void onItemClick(AdapterView<?> adapter, View item, int pos, long id) {
+						// TODO Auto-generated method stub
+						Intent profileIntent = new Intent(getActivity(), ProfileActivity.class);
+						Tweet chosenTweet = tweets.get(pos);
+						profileIntent.putExtra("User", chosenTweet.getUser());
+						startActivity(profileIntent);
+					}
+				});				
+			}
+
 			public TweetsAdapter getAdapter() {
 				return adapter;
 			}

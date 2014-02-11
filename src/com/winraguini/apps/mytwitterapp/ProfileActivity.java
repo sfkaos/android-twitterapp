@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.winraguini.apps.mytwitterapp.fragments.UserTimelineFragment;
 import com.winraguini.apps.mytwitterapp.models.User;
 
 public class ProfileActivity extends FragmentActivity {
@@ -31,6 +32,12 @@ public class ProfileActivity extends FragmentActivity {
 		User u = (User) getIntent().getSerializableExtra("User");
 		getActionBar().setTitle("@"+u.getScreenName());
 		populateProfileHeader(u);
+		UserTimelineFragment userTimelineFragment = (UserTimelineFragment)
+                getSupportFragmentManager().findFragmentById(R.id.fragmentUserTimeline);
+
+        if (userTimelineFragment != null) {
+        	userTimelineFragment.updateUser(u);
+        }
 	}
 	
 	private void populateProfileHeader(User user) {

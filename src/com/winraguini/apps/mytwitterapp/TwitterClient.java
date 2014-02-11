@@ -10,6 +10,7 @@ import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.winraguini.apps.mytwitterapp.models.Tweet;
+import com.winraguini.apps.mytwitterapp.models.User;
 
 /*
  * 
@@ -79,14 +80,25 @@ public class TwitterClient extends OAuthBaseClient {
     }
     
     //statuses/mentions_timeline.json
-    public void getUserTimeline(Tweet lastTweet, AsyncHttpResponseHandler handler)
+    public void getUserTimeline(User user, Tweet lastTweet, AsyncHttpResponseHandler handler)
     {
     	//User sinceID;
     	String url = getApiUrl("statuses/user_timeline.json");
+    	url = url + "?screen_name=" + user.getScreenName();
     	if (lastTweet != null) {
-    		url = url + "?max_id=" + lastTweet.getId();
+    		url = url + "&max_id=" + lastTweet.getId();
     	}
     	Log.d("DEBUG", "url: " + url);
+    	client.get(url, null, handler);
+    }
+    
+//    users/lookup.json
+    public void getUserLookup(User user, AsyncHttpResponseHandler handler)
+    {
+    	String url = getApiUrl("users/lookup.json");
+    	if (user != null) {
+    		url = url + "?screen_name=" + user.getScreenName();
+    	}
     	client.get(url, null, handler);
     }
     
