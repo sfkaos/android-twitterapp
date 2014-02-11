@@ -16,25 +16,6 @@ import com.winraguini.apps.mytwitterapp.models.EndlessScrollListener;
 import com.winraguini.apps.mytwitterapp.models.Tweet;
 
 public class HomeTimelineFragment extends TweetsListFragment {
-	Tweet lastTweet;
-	ArrayList<Tweet> tweets = new ArrayList<Tweet>();
-	TweetsListFragment fragmentTweets;
-	ListView lvTweets;
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-		Log.d("DEBUG", "onCreating stuff");
-        // Attach the listener to the AdapterView onCreate
-		//adapter = new TweetsAdapter(getBaseContext(), tweets);	
-		//lvTweets = (ListView) getActivity().findViewById(R.id.lvTweets);
-
-		//fragmentTweets = (TweetsListFragment)getActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentTweets);
-		
-		getTweets();
-	}
-	
 	public void getTweets() {
 		MyTwitterApp.getRestClient().getHomeTimeline(lastTweet, new JsonHttpResponseHandler() {
 			public void onSuccess(JSONArray jsonTweets) {		
@@ -48,11 +29,5 @@ public class HomeTimelineFragment extends TweetsListFragment {
 			}
 		});
 	}
-	
-	public void customLoadMoreDataFromApi(int totalItemsCount)
-	{
-		getTweets();
-	}
-	
 
 }

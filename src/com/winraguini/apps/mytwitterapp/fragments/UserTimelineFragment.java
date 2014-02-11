@@ -14,13 +14,6 @@ import com.winraguini.apps.mytwitterapp.models.Tweet;
 
 public class UserTimelineFragment extends TweetsListFragment {	
 	
-	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		lastTweet = new Tweet();
-		getTweets();
-	}
-	
 	public void getTweets() {
 		MyTwitterApp.getRestClient().getUserTimeline(lastTweet, new JsonHttpResponseHandler() {
 			public void onSuccess(JSONArray jsonTweets) {

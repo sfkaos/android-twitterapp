@@ -15,23 +15,25 @@ import com.winraguini.apps.mytwitterapp.TweetsAdapter;
 import com.winraguini.apps.mytwitterapp.models.EndlessScrollListener;
 import com.winraguini.apps.mytwitterapp.models.Tweet;
 
-public class TweetsListFragment extends Fragment {
+public abstract class TweetsListFragment extends Fragment {
 			TweetsAdapter adapter;
 			ListView lvTweets;
 			HomeTimelineFragment timelineFragment;
 			Tweet lastTweet;
+			ArrayList<Tweet> tweets;
 			
 			public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 				// Defines the xml file for the fragment
 				View view = inflater.inflate(R.layout.frament_tweets_list, container, false);
-				// Setup handles to view objects here		      
+				// Setup handles to view objects here
+				getTweets();
 				return view;
 		    }
 			
 			public void onActivityCreated(Bundle savedInstanceState)
 			{
 				super.onActivityCreated(savedInstanceState);
-				ArrayList<Tweet> tweets = new ArrayList<Tweet>();
+				tweets = new ArrayList<Tweet>();
 				//adapter.addAll(Tweet.fromJson(jsonTweets));
 				adapter = new TweetsAdapter(getActivity(), tweets);				
 				lvTweets = (ListView) getActivity().findViewById(R.id.lvTweets);
@@ -41,8 +43,12 @@ public class TweetsListFragment extends Fragment {
 			        public void onLoadMore(int page, int totalItemsCount) {
 			            // Triggered only when new data needs to be appended to the list
 			            // Add whatever code is needed to append new items to your AdapterView
-			            customLoadMoreDataFromApi(page); 
-			            //customLoadMoreDataFromApi(totalItemsCount); 
+			            //customLoadMoreDataFromApi(page); 
+			            //customLoadMoreDataFromApi(totalItemsCount);
+			        	getTweets();
+			        	if (tweets.size() > 0) {
+			        		lastTweet = tweets.get(tweets.size() - 1);
+			        	}			        	
 			        }
 			     });
 				//lastTweet = tweets.get(tweets.size() - 1);				
@@ -53,13 +59,6 @@ public class TweetsListFragment extends Fragment {
 				return adapter;
 			}
 			
-			public void customLoadMoreDataFromApi(int totalItemsCount)
-			{
-				//timelineFragment.getTweets();
-				Log.d("DEBUG", "loading more data...");
-//				(TimelineActivity) getActivity().getTweets();
-			}
-			
-			
+			abstract void getTweets();			
 			
 }

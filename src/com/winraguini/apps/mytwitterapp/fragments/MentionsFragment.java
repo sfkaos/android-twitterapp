@@ -13,15 +13,6 @@ import com.winraguini.apps.mytwitterapp.MyTwitterApp;
 import com.winraguini.apps.mytwitterapp.models.Tweet;
 
 public class MentionsFragment extends TweetsListFragment {
-	Tweet lastTweet;
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		lastTweet = new Tweet();
-		getTweets();
-	}
-	
 	public void getTweets() {
 		MyTwitterApp.getRestClient().getMentions(lastTweet, new JsonHttpResponseHandler() {
 			public void onSuccess(JSONArray jsonTweets) {
@@ -37,9 +28,4 @@ public class MentionsFragment extends TweetsListFragment {
 		});
 	}
 	
-	public void customLoadMoreDataFromApi(int totalItemsCount)
-	{
-		getTweets();
-	}
-
 }
