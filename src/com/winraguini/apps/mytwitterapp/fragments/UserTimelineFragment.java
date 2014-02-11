@@ -17,9 +17,7 @@ public class UserTimelineFragment extends TweetsListFragment {
 	public void getTweets() {
 		MyTwitterApp.getRestClient().getUserTimeline(lastTweet, new JsonHttpResponseHandler() {
 			public void onSuccess(JSONArray jsonTweets) {
-				Log.d("DEBUG", jsonTweets.toString());
-				ArrayList<Tweet> tweets = Tweet.fromJson(jsonTweets);
-				getAdapter().addAll(tweets);
+				processTweets(jsonTweets);
 			}
 			
 			public void onFailure(java.lang.Throwable e) {

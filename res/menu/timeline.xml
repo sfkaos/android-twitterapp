@@ -6,13 +6,13 @@
         android:showAsAction="ifRoom"
         android:onClick="onRefreshAction"
         android:icon="@drawable/ic_action_refresh"/>
-    
+    -->
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:showAsAction="ifRoom"
         android:onClick="onComposeAction"
-        android:icon="@drawable/ic_action_new"/> -->
+        android:icon="@drawable/ic_action_new"/> 
     <item
         android:id="@+id/profile_view"
         android:orderInCategory="100"

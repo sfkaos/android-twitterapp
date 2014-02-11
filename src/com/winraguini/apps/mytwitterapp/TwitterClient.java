@@ -49,7 +49,6 @@ public class TwitterClient extends OAuthBaseClient {
     
     public void getHomeTimeline(Tweet lastTweet, AsyncHttpResponseHandler handler)
     {
-    	//User sinceID;
     	String url = getApiUrl("statuses/home_timeline.json");
     	if (lastTweet != null) {
     		url = url + "?max_id=" + lastTweet.getId();
@@ -72,9 +71,9 @@ public class TwitterClient extends OAuthBaseClient {
     {
     	//User sinceID;
     	String url = getApiUrl("statuses/mentions_timeline.json");
-//    	if (lastTweet != null) {
-//    		url = url + "?max_id=" + lastTweet.getId();
-//    	}
+    	if (lastTweet != null) {
+    		url = url + "?max_id=" + lastTweet.getId();
+    	}
     	Log.d("DEBUG", "url: " + url);
     	client.get(url, null, handler);
     }
@@ -84,9 +83,9 @@ public class TwitterClient extends OAuthBaseClient {
     {
     	//User sinceID;
     	String url = getApiUrl("statuses/user_timeline.json");
-//    	if (lastTweet != null) {
-//    		url = url + "?max_id=" + lastTweet.getId();
-//    	}
+    	if (lastTweet != null) {
+    		url = url + "?max_id=" + lastTweet.getId();
+    	}
     	Log.d("DEBUG", "url: " + url);
     	client.get(url, null, handler);
     }

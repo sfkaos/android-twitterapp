@@ -19,10 +19,11 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.winraguini.apps.mytwitterapp.fragments.HomeTimelineFragment;
 import com.winraguini.apps.mytwitterapp.fragments.MentionsFragment;
 import com.winraguini.apps.mytwitterapp.models.Tweet;
+import com.winraguini.apps.mytwitterapp.models.User;
 
 
 public class TimelineActivity extends FragmentActivity implements TabListener {
-	
+	User u;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +104,7 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
 		FragmentManager fragmentManager = getSupportFragmentManager();
-		android.support.v4.app.FragmentTransaction fts = fragmentManager.beginTransaction();
+		android.support.v4.app.FragmentTransaction fts = fragmentManager.beginTransaction();		
 		if (tab.getTag() == "HomeTimelineFragment") {
 			//set fragment to HomeTimeline
 			fts.replace(R.id.frame_container, new HomeTimelineFragment());
@@ -121,7 +122,19 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
 	}
 	
 	public void onProfileView(MenuItem mi) {
-		Intent i = new Intent(this, ProfileActivity.class);
+		MyTwitterApp.getRestClient().getVerifyCredentials(new JsonHttpResponseHandler(){
+			@Override
+			public void onSuccess(JSONObject json) {
+				u = User.fromJson(json);
+				onUserInfo(u);
+			}
+
+		});
+	}
+	
+	public void onUserInfo(User u) {
+		Intent i = new Intent(this, ProfileActivity.class);	
+		i.putExtra("User", u);
 		startActivity(i);
 	}
 	

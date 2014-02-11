@@ -13,7 +13,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.winraguini.apps.mytwitterapp.models.User;
 
 public class ProfileActivity extends FragmentActivity {
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -29,15 +28,9 @@ public class ProfileActivity extends FragmentActivity {
 	}
 	
 	public void loadProfileInfo() {
-		MyTwitterApp.getRestClient().getVerifyCredentials(new JsonHttpResponseHandler(){
-			@Override
-			public void onSuccess(JSONObject json) {
-				User u = User.fromJson(json);
-				getActionBar().setTitle("@"+u.getScreenName());
-				populateProfileHeader(u);
-			}
-
-		});
+		User u = (User) getIntent().getSerializableExtra("User");
+		getActionBar().setTitle("@"+u.getScreenName());
+		populateProfileHeader(u);
 	}
 	
 	private void populateProfileHeader(User user) {
