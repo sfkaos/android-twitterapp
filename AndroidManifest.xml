@@ -51,6 +51,10 @@
             android:name="com.winraguini.apps.mytwitterapp.ComposeActivity"
             android:label="@string/title_activity_compose" >
         </activity>
+        <activity
+            android:name="com.winraguini.apps.mytwitterapp.ProfileActivity"
+            android:label="@string/title_activity_profile" >
+        </activity>
     </application>
 
 </manifest>

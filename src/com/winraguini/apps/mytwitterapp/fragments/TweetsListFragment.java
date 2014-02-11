@@ -19,6 +19,7 @@ public class TweetsListFragment extends Fragment {
 			TweetsAdapter adapter;
 			ListView lvTweets;
 			HomeTimelineFragment timelineFragment;
+			Tweet lastTweet;
 			
 			public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 				// Defines the xml file for the fragment
