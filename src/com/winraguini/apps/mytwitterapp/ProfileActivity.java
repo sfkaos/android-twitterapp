@@ -34,7 +34,6 @@ public class ProfileActivity extends FragmentActivity {
 		populateProfileHeader(u);
 		UserTimelineFragment userTimelineFragment = (UserTimelineFragment)
                 getSupportFragmentManager().findFragmentById(R.id.fragmentUserTimeline);
-
         if (userTimelineFragment != null) {
         	userTimelineFragment.updateUser(u);
         }

@@ -36,7 +36,6 @@ public abstract class TweetsListFragment extends Fragment {
 				super.onCreate(savedInstanceState);
 				tweets = new ArrayList<Tweet>();
 				lastTweet = null;
-				Log.d("DEBUG", "Refreshing lastTweet");
 			}
 			
 			public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,7 +55,6 @@ public abstract class TweetsListFragment extends Fragment {
 				getTweets();
 				if (getAdapter().getCount() > 0) {
 	        		lastTweet = adapter.getItem(adapter.getCount() - 1);//tweets.get(tweets.size() - 1);
-	        		Log.d("DEBUG", "last tweet id is" + lastTweet.getId());
 	        	}
 				
 				lvTweets = (ListView) getActivity().findViewById(R.id.lvTweets);

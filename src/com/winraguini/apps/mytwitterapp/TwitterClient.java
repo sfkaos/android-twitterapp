@@ -54,7 +54,6 @@ public class TwitterClient extends OAuthBaseClient {
     	if (lastTweet != null) {
     		url = url + "?max_id=" + lastTweet.getId();
     	}
-    	Log.d("DEBUG", "url: " + url);
     	client.get(url, null, handler);
     }
     
@@ -75,7 +74,6 @@ public class TwitterClient extends OAuthBaseClient {
     	if (lastTweet != null) {
     		url = url + "?max_id=" + lastTweet.getId();
     	}
-    	Log.d("DEBUG", "url: " + url);
     	client.get(url, null, handler);
     }
     
@@ -88,7 +86,6 @@ public class TwitterClient extends OAuthBaseClient {
     	if (lastTweet != null) {
     		url = url + "&max_id=" + lastTweet.getId();
     	}
-    	Log.d("DEBUG", "url: " + url);
     	client.get(url, null, handler);
     }
     
